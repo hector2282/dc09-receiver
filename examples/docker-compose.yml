@@ -1,0 +1,17 @@
+services:
+  dc09-receiver:
+    build: ..
+    image: dc09-receiver:local
+    restart: unless-stopped
+    ports:
+      - "9500:9500/tcp"
+      - "9500:9500/udp"
+    environment:
+      DC09_CONFIG: /etc/dc09-receiver/config.toml
+      DC09_KEY_5678: "${DC09_KEY_5678:-hex:00112233445566778899AABBCCDDEEFF}"
+    volumes:
+      - ./config.toml:/etc/dc09-receiver/config.toml:ro
+      - dc09-data:/data
+    working_dir: /data
+volumes:
+  dc09-data:

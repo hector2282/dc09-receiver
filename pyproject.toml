@@ -1,0 +1,56 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dc09-receiver"
+version = "0.1.0"
+description = "Lightweight ANSI/SIA DC-09 alarm receiver (Contact ID, SIA DCS, AES) with JSON/webhook output"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+requires-python = ">=3.11"
+authors = [{ name = "Hector Baquerizo (NS-Technologies)" }]
+keywords = ["alarm", "sia", "dc-09", "contact-id", "security", "monitoring", "arc", "intrusion"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Intended Audience :: System Administrators",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Security",
+  "Topic :: System :: Monitoring",
+  "Framework :: AsyncIO",
+]
+dependencies = []
+
+[project.optional-dependencies]
+aes = ["cryptography>=41"]
+dev = ["cryptography>=41", "pytest>=8", "ruff>=0.5"]
+
+[project.scripts]
+dc09-receiver = "dc09_receiver.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dc09_receiver"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "BLE", "RUF"]
+ignore = ["S104", "S311", "RUF001", "RUF002", "RUF003"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "S105", "S106"]
+"examples/*" = ["S"]

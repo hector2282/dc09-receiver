@@ -1,0 +1,8 @@
+dc09-receiver
+Copyright 2026 NS-Technologies / Hector Baquerizo
+
+This product is an independent implementation of the publicly documented
+ANSI/SIA DC-09 transport and of the Contact ID / SIA DCS event formats.
+It is not affiliated with or endorsed by the Security Industry Association
+(SIA) or by any alarm panel manufacturer. Product names are trademarks of
+their respective owners.

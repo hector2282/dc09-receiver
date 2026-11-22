@@ -1,0 +1,41 @@
+# Example configuration. All account numbers, names and keys are FICTITIOUS.
+# Copy to config.local.toml (git-ignored) and adapt.
+
+[receiver]
+host = "0.0.0.0"
+port = 9500
+tcp = true
+udp = true
+language = "en"                 # "en" or "es" for event descriptions
+accept_unknown_accounts = true  # unknown panels are delivered with account_known=false
+accept_bad_crc = false          # DC-09 says: do not ACK corrupted messages
+deliver_heartbeats = false      # NULL / periodic tests only feed supervision
+timestamp_window = [-40, 20]    # seconds; enforced for encrypted messages
+# receiver_number = "1"         # R field in ACKs (default: echo the panel)
+# line_prefix = "1"             # L field in ACKs (default: echo the panel)
+
+[[accounts]]
+account = "1234"                # 1-16 HEX digits (0-9, A-F) — not a name!
+name = "Demo warehouse"
+supervision_minutes = 10        # alert after 2 x 10 min + grace without traffic
+zones = { 1 = "Front door", 2 = "Hall PIR", 15 = "Back door" }
+
+[[accounts]]
+account = "5678"
+name = "Demo shop (encrypted)"
+key_env = "DC09_KEY_5678"       # AES key from the environment (hex: or ascii: prefix allowed)
+supervision_minutes = 60
+
+[[sinks]]
+type = "stdout"                 # JSON Lines on stdout
+
+[[sinks]]
+type = "file"
+path = "events.jsonl"
+
+# [[sinks]]
+# type = "webhook"
+# url = "https://alarms.example.com/dc09"
+# secret_env = "DC09_WEBHOOK_SECRET"   # adds X-DC09-Signature: sha256=<hmac>
+# timeout = 10
+# retries = 5
